@@ -36,11 +36,13 @@ import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from "@/views/home/childComps/RecommendView";
 import FeatureView from "@/views/home/childComps/FeatureView";
 
+import {itemListenerMixin} from "@/common/mixin";
+
 import {
   getHomeMultidata,
   getHomeGoods
 } from "@/network/home";
-import {debounce} from "@/components/common/utils";
+import {debounce} from "common/utils";
 
 export default {
     name: "Home",
@@ -54,6 +56,7 @@ export default {
       RecommendView,
       FeatureView,
     },
+  mixins:[itemListenerMixin],
     data(){
       return {
         banners:[],
@@ -84,19 +87,25 @@ export default {
       this.getHomeGoods('new')
       this.getHomeGoods('sell')
     },
+    //这里用了混入 所以不需要了
     mounted() {
-      //1.监听item中图片加载完成
+      /*//1.监听item中图片加载完成
       const refresh = debounce(this.$refs.scroll.refresh,200)
-      this.$bus.$on('itemImageLoad',() => {
+      //对监听的事件进行保存
+      this.itemImgListener = () => {
         refresh()
-      })
+      }
+      this.$bus.$on('itemImageLoad',this.itemImgListener)*/
     },
   activated() {
     this.$refs.scroll.scrollTo(0,this.saveY,0)
     this.$refs.scroll.refresh()
   },
   deactivated() {
+    //1.保存Y值
     this.saveY = this.$refs.scroll.getScrollY()
+    //2.取消全局事件的监听
+    this.$bus.$off('itemImgLoad',this.itemImgListener)
   },
   methods:{
       //事件监听相关的方法
