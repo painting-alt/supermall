@@ -29,14 +29,13 @@ import NavBar from "@/components/common/navbar/NavBar";
 import TabControl from "@/components/content/tabControl/TabControl";
 import GoodsList from "@/components/content/goods/GoodsList";
 import Scroll from "@/components/common/scroll/Scroll";
-import BackTop from "@/components/content/backTop/BackTop";
 
 //子组件
 import HomeSwiper from './childComps/HomeSwiper'
 import RecommendView from "@/views/home/childComps/RecommendView";
 import FeatureView from "@/views/home/childComps/FeatureView";
 
-import {itemListenerMixin} from "@/common/mixin";
+import {itemListenerMixin,backTopMinxin} from "@/common/mixin";
 
 import {
   getHomeMultidata,
@@ -51,12 +50,11 @@ export default {
       TabControl,
       GoodsList,
       Scroll,
-      BackTop,
       HomeSwiper,
       RecommendView,
       FeatureView,
     },
-  mixins:[itemListenerMixin],
+  mixins:[itemListenerMixin,backTopMinxin],
     data(){
       return {
         banners:[],
@@ -67,7 +65,6 @@ export default {
           'sell': {page:0,list:[]}
         },
         currentType: 'pop',
-        isShowBackTop:false,
         tabOffsetTop: 0,
         isTabFixed: false,
         saveY: 0
@@ -124,7 +121,7 @@ export default {
         this.$refs.tabControl1.currentIndex = index;
         this.$refs.tabControl2.currentIndex = index;
       },
-      backClick(){
+   /*   backClick(){
         //console.log('回到顶部');
         //第三个参数传一个毫秒数
         //this.$refs.scroll先拿到scroll组件
@@ -132,7 +129,7 @@ export default {
         //this.$refs.scroll.scroll.scrollTo()再去调用scrollTo这个方法
         //this.$refs.scroll.scroll.scrollTo(0,0,500);
         this.$refs.scroll.scrollTo(0,0);
-      },
+      },*/
       contentScroll(position){
         // console.log(position);
         //1.判断BackTop是否显示
