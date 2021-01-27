@@ -17,6 +17,7 @@
   </scroll>
   <detail-bottom-bar @addCart="addToCart"/>
   <back-top @click.native="backClick" v-show="isShowBackTop"/>
+<!--  <toast :message="message" :show="show"/>-->
 </div>
 </template>
 
@@ -31,6 +32,7 @@ import DetailCommentInfo from "@/views/detail/childComps/DetailCommentInfo";
 import DetailBottomBar from "@/views/detail/childComps/DetailBottomBar";
 
 import GoodsList from "@/components/content/goods/GoodsList";
+// import Toast from "@/components/common/toast/Toast";
 
 
 import Scroll from "@/components/common/scroll/Scroll";
@@ -51,7 +53,8 @@ export default {
     DetailCommentInfo,
     DetailBottomBar,
     GoodsList,
-    Scroll
+    Scroll,
+    // Toast
   },
   data(){
     return {
@@ -65,6 +68,8 @@ export default {
       recommends: [],
       themeTopYs: [],
       currentIndex: 0,
+     /* message: '',
+      show: false*/
     }
   },
   mixins:[itemListenerMixin,backTopMinxin],
@@ -164,7 +169,16 @@ export default {
       //mutations时用commit
       // this.$store.commit('addCart',product)
       // actions时用dispatch
-      this.$store.dispatch('addCart',product)
+      this.$store.dispatch('addCart',product).then(res => {
+       /* this.show = true;
+        this.message = res;
+        setTimeout(() =>{
+          this.show = false;
+          this.message = ''
+        },1500)
+        console.log(res);*/
+        this.$toast.show(res,2000)
+      })
     }
   },
   destroyed() {
